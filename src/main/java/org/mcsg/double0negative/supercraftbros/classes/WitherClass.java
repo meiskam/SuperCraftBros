@@ -4,6 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wither;
+import org.bukkit.entity.WitherSkull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -25,7 +27,8 @@ public class WitherClass extends PlayerClassBase{
 	}
 	
 	public void PlayerShootArrow(Entity pro){
-		
+		(player.launchProjectile(WitherSkull.class)).setVelocity(pro.getVelocity());
+		pro.remove();
 	}
 	
 	
