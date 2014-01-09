@@ -12,60 +12,57 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.mcsg.double0negative.supercraftbros.util.Colorizer;
 
-public class GhastClass extends PlayerClassBase{
+public class GhastClass extends PlayerClassBase {
 
-	public GhastClass(Player p) {
-		super(p);
-		// TODO Auto-generated constructor stub
-	}
-	
-	@Override 
-	public void PlayerSpawn(){
-		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 88000, 4));
+    public GhastClass(Player p) {
+        super(p);
+        // TODO Auto-generated constructor stub
+    }
 
-		PlayerInventory i = player.getInventory();
-		i.clear();
+    @Override
+    public void PlayerSpawn() {
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 88000, 4));
 
-		i.setHelmet(Colorizer.setColor(new ItemStack(Material.LEATHER_HELMET),250,0,0));
-		
-		ItemStack chest = Colorizer.setColor(new ItemStack(Material.LEATHER_CHESTPLATE), 250, 250, 250);
-		chest.addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 10);
-		i.setChestplate(chest);
+        PlayerInventory i = player.getInventory();
+        i.clear();
 
-		ItemStack legs = Colorizer.setColor(new ItemStack(Material.LEATHER_LEGGINGS), 250, 250, 250);
-		legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-		i.setLeggings(legs);
+        i.setHelmet(Colorizer.setColor(new ItemStack(Material.LEATHER_HELMET), 250, 0, 0));
 
-		ItemStack boot = Colorizer.setColor(new ItemStack(Material.LEATHER_BOOTS),  250, 250, 250);
-		boot.addUnsafeEnchantment(Enchantment.PROTECTION_FALL, 10);
-		i.setBoots(boot);
+        ItemStack chest = Colorizer.setColor(new ItemStack(Material.LEATHER_CHESTPLATE), 250, 250, 250);
+        chest.addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 10);
+        i.setChestplate(chest);
 
+        ItemStack legs = Colorizer.setColor(new ItemStack(Material.LEATHER_LEGGINGS), 250, 250, 250);
+        legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        i.setLeggings(legs);
 
-		ItemStack i1 = new ItemStack(Material.GHAST_TEAR);
-		i1.addUnsafeEnchantment(Enchantment.KNOCKBACK, 2);
-		i1.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
-		i.addItem(i1);
+        ItemStack boot = Colorizer.setColor(new ItemStack(Material.LEATHER_BOOTS), 250, 250, 250);
+        boot.addUnsafeEnchantment(Enchantment.PROTECTION_FALL, 10);
+        i.setBoots(boot);
 
-		i.addItem(new ItemStack(Material.FIREBALL));
+        ItemStack i1 = new ItemStack(Material.GHAST_TEAR);
+        i1.addUnsafeEnchantment(Enchantment.KNOCKBACK, 2);
+        i1.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
+        i.addItem(i1);
 
-		player.updateInventory();
+        i.addItem(new ItemStack(Material.FIREBALL));
 
-	}
+        player.updateInventory();
+    }
 
-	public void PlayerInteract(Action a){
-		if(player.getItemInHand().getType() == Material.FIREBALL){
-			Fireball e = player.launchProjectile(Fireball.class);
-			e.setVelocity(e.getVelocity().multiply(10));
-		}
-	}
-	
-	@Override
-	public GhastClass newInstance(Player p){
-		return new GhastClass(p);
-	}
-	
-	public String getName(){
-		return "Ghast";
-	}
+    public void PlayerInteract(Action a) {
+        if (player.getItemInHand().getType() == Material.FIREBALL) {
+            Fireball e = player.launchProjectile(Fireball.class);
+            e.setVelocity(e.getVelocity().multiply(10));
+        }
+    }
 
+    @Override
+    public GhastClass newInstance(Player p) {
+        return new GhastClass(p);
+    }
+
+    public String getName() {
+        return "Ghast";
+    }
 }

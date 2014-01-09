@@ -9,14 +9,11 @@ public class SetLobbyGameSpawn implements SubCommand{
 	@Override
 	public boolean onCommand(Player player, String[] args) {
 		if(player.isOp()){
-			
 			if(args.length == 1){
 				int i = Integer.parseInt(args[0]);
-				SettingsManager.getInstance().setGameLobbySpawn(i, player.getLocation());
+                SettingsManager.getInstance().setGameLobbySpawn(i, player.getLocation());
 				player.sendMessage(ChatColor.GREEN + "Game lobby set for Arena #" + ChatColor.GOLD + args[0]);
 			}
-			
-			
 		}
 		return true;
 	}
@@ -26,5 +23,4 @@ public class SetLobbyGameSpawn implements SubCommand{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

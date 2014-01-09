@@ -12,69 +12,59 @@ import org.bukkit.util.Vector;
 import org.mcsg.double0negative.supercraftbros.GameManager;
 import org.mcsg.double0negative.supercraftbros.util.Colorizer;
 
-public class CactusClass extends PlayerClassBase{
+public class CactusClass extends PlayerClassBase {
 
+    public CactusClass(Player p) {
+        super(p);
+        // TODO Auto-generated constructor stub
+    }
 
+    @Override
+    public void PlayerSpawn() {
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 80000, 2));
 
+        PlayerInventory i = player.getInventory();
+        i.clear();
 
+        i.setHelmet(Colorizer.setColor(new ItemStack(Material.LEATHER_HELMET), 50, 150, 50));
 
-	public CactusClass(Player p) {
-		super(p);
-		// TODO Auto-generated constructor stub
-	}
+        ItemStack chest = Colorizer.setColor(new ItemStack(Material.LEATHER_CHESTPLATE), 50, 150, 50);
+        chest.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+        chest.addUnsafeEnchantment(Enchantment.THORNS, 4);
+        i.setChestplate(chest);
 
+        ItemStack legs = Colorizer.setColor(new ItemStack(Material.LEATHER_LEGGINGS), 50, 150, 50);
+        legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+        i.setLeggings(legs);
 
-	@Override 
-	public void PlayerSpawn(){
-		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 80000, 2));
+        ItemStack boot = Colorizer.setColor(new ItemStack(Material.LEATHER_BOOTS), 50, 150, 250);
+        boot.addUnsafeEnchantment(Enchantment.PROTECTION_FALL, 10);
+        i.setBoots(boot);
 
-		PlayerInventory i = player.getInventory();
-		i.clear();
+        ItemStack i1 = new ItemStack(Material.WOOD_SWORD);
+        i1.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
+        i1.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
+        i.addItem(i1);
 
-		i.setHelmet(Colorizer.setColor(new ItemStack(Material.LEATHER_HELMET), 50, 150, 50));
+        player.updateInventory();
+    }
 
-		ItemStack chest = Colorizer.setColor(new ItemStack(Material.LEATHER_CHESTPLATE), 50, 150, 50);
-		chest.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-		chest.addUnsafeEnchantment(Enchantment.THORNS, 4);
-		i.setChestplate(chest);
+    public CactusClass newInstance(Player p) {
+        return new CactusClass(p);
+    }
 
-		ItemStack legs = Colorizer.setColor(new ItemStack(Material.LEATHER_LEGGINGS), 50, 150, 50);
-		legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-		i.setLeggings(legs);
+    @Override
+    public void PlayerDamaged() {
+        if (player.isSneaking()) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(), new Runnable() {
+                public void run() {
+                    player.setVelocity(new Vector(0, 0, 0));
+                }
+            }, 1);
+        }
+    }
 
-		ItemStack boot = Colorizer.setColor(new ItemStack(Material.LEATHER_BOOTS),  50, 150, 250);
-		boot.addUnsafeEnchantment(Enchantment.PROTECTION_FALL, 10);
-		i.setBoots(boot);
-
-
-		ItemStack i1 = new ItemStack(Material.WOOD_SWORD);
-		i1.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
-		i1.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
-		i.addItem(i1);
-
-
-		player.updateInventory();
-
-	}
-
-	public CactusClass newInstance(Player p){
-		return new CactusClass(p);
-	}
-
-	@Override
-	public void PlayerDamaged() {
-		if(player.isSneaking()){
-			Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(), new Runnable(){
-				public void run(){
-				player.setVelocity(new Vector(0, 0, 0));
-				}
-			}, 1);
-		}
-	}
-
-	public String getName(){
-		return "Cactus";
-	}
-
-
+    public String getName() {
+        return "Cactus";
+    }
 }

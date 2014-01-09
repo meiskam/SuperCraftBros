@@ -29,13 +29,12 @@ import com.sk89q.worldedit.bukkit.selections.Selection;
 
 public class GameManager {
 
-	private SuperCraftBros p;
-	
+    private SuperCraftBros p;
+
     static GameManager instance = new GameManager();
-    private ArrayList < Game > games = new ArrayList < Game > ();
-    public HashMap<String, PlayerClass>classList = new HashMap<String, PlayerClass>();
-    
-    
+    private ArrayList<Game> games = new ArrayList<Game>();
+    public HashMap<String, PlayerClass> classList = new HashMap<String, PlayerClass>();
+
     private GameManager() {
 
     }
@@ -47,11 +46,11 @@ public class GameManager {
     public void setup(SuperCraftBros plugin) {
         p = plugin;
         LoadGames();
-        
+
         classList.put("blaze", new BlazeClass(null));
         classList.put("cactus", new CactusClass(null));
         classList.put("creeper", new CreeperClass(null));
-        classList.put("enderman", new  EndermanClass(null));
+        classList.put("enderman", new EndermanClass(null));
         classList.put("skeleton", new SkeletonClass(null));
         classList.put("wither", new WitherClass(null));
         classList.put("spider", new SpiderClass(null));
@@ -60,7 +59,6 @@ public class GameManager {
         classList.put("witch", new WitchClass(null));
         classList.put("ghast", new GhastClass(null));
         classList.put("enderdragon", new EnderdragonClass(null));
-
     }
 
     public Plugin getPlugin() {
@@ -79,10 +77,10 @@ public class GameManager {
         int a = 1;
         while (loaded < no) {
             if (c.isSet("system.arenas." + a + ".x1")) {
-                //c.set("system.arenas."+a+".enabled",c.getBoolean("system.arena."+a+".enabled", true));
+                //c.set("system.arenas." + a + ".enabled", c.getBoolean("system.arena." + a + ".enabled", true));
                 if (c.getBoolean("system.arenas." + a + ".enabled")) {
-                    //System.out.println(c.getString("system.arenas."+a+".enabled"));
-                    //c.set("system.arenas."+a+".vip",c.getBoolean("system.arenas."+a+".vip", false));
+                    //System.out.println(c.getString("system.arenas." + a + ".enabled"));
+                    //c.set("system.arenas." + a + ".vip", c.getBoolean("system.arenas." + a + ".vip", false));
                     System.out.println("Loading Arena: " + a);
                     loaded++;
                     games.add(new Game(a));
@@ -93,7 +91,7 @@ public class GameManager {
     }
 
     public int getBlockGameId(Location v) {
-        for (Game g: games) {
+        for (Game g : games) {
             if (g.isBlockInArena(v)) {
                 return g.getID();
             }
@@ -102,7 +100,7 @@ public class GameManager {
     }
 
     public int getPlayerGameId(Player p) {
-        for (Game g: games) {
+        for (Game g : games) {
             if (g.isPlayerActive(p)) {
                 return g.getID();
             }
@@ -110,31 +108,29 @@ public class GameManager {
         return -1;
     }
 
-
     public boolean isPlayerActive(Player player) {
-        for (Game g: games) {
+        for (Game g : games) {
             if (g.isPlayerActive(player)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public boolean isPlayerInactive(Player player) {
-        for (Game g: games) {
+        for (Game g : games) {
             if (g.isPlayerActive(player)) {
                 return true;
             }
         }
         return false;
     }
-    
 
     public void removeFromOtherQueues(Player p, int id) {
-        for (Game g: getGames()) {
+        for (Game g : getGames()) {
             if (g.isInQueue(p) && g.getID() != id) {
                 g.removeFromQueue(p);
-                p.sendMessage(ChatColor.GREEN+"Removed from the queue in arena "+ g.getID());
+                p.sendMessage(ChatColor.GREEN + "Removed from the queue in arena " + g.getID());
             }
         }
     }
@@ -145,15 +141,13 @@ public class GameManager {
 
     public Game getGame(int a) {
         //int t = gamemap.get(a);
-        for (Game g: games) {
+        for (Game g : games) {
             if (g.getID() == a) {
                 return g;
             }
         }
         return null;
     }
-
-    
 
     public void disableGame(int id) {
         getGame(id).disable();
@@ -166,9 +160,9 @@ public class GameManager {
     public ArrayList<Game> getGames() {
         return games;
     }
-    
+
     public Game.State getGameMode(int a) {
-        for (Game g: games) {
+        for (Game g : games) {
             if (g.getID() == a) {
                 return g.getState();
             }
@@ -184,22 +178,22 @@ public class GameManager {
     public void addPlayer(Player p, int g) {
         Game game = getGame(g);
         if (game == null) {
-            p.sendMessage(ChatColor.RED+ "Game does not exist!");
+            p.sendMessage(ChatColor.RED + "Game does not exist!");
             return;
         }
         getGame(g).addPlayer(p);
     }
-    
-    public PlayerClass getPlayerClass(Player p){
-    	Game g = getGame(getPlayerGameId(p));
-    	return g.getPlayerClass(p);
-    }
-    
 
-/*    public void autoAddPlayer(Player pl) {
-        ArrayList < Game > qg = new ArrayList < Game > (5);
-        for (Game g: games) {
-            if (g.getMode() == Game.GameMode.WAITING) qg.add(g);
+    public PlayerClass getPlayerClass(Player p) {
+        Game g = getGame(getPlayerGameId(p));
+        return g.getPlayerClass(p);
+    }
+
+    /*public void autoAddPlayer(Player pl) {
+        ArrayList<Game> qg = new ArrayList<Game>(5);
+        for (Game g : games) {
+            if (g.getMode() == Game.GameMode.WAITING)
+                qg.add(g);
         }
         //TODO: fancy auto balance algorithm
         if (qg.size() == 0) {
@@ -221,13 +215,13 @@ public class GameManager {
         WorldEditPlugin we = p.getWorldEdit();
         Selection sel = we.getSelection(pl);
         if (sel == null) {
-            pl.sendMessage(ChatColor.RED+"You must make a WorldEdit Selection first!");
+            pl.sendMessage(ChatColor.RED + "You must make a WorldEdit Selection first!");
             return;
         }
         Location max = sel.getMaximumPoint();
         Location min = sel.getMinimumPoint();
 
-        /* if(max.getWorld()!=SettingsManager.getGameWorld() || min.getWorld()!=SettingsManager.getGameWorld()){
+        /*if((max.getWorld() != SettingsManager.getGameWorld()) || (min.getWorld() != SettingsManager.getGameWorld())) {
             pl.sendMessage(ChatColor.RED+"Wrong World!");
             return;
         }*/
@@ -236,7 +230,8 @@ public class GameManager {
         c.set("system.arenano", no);
         if (games.size() == 0) {
             no = 1;
-        } else no = games.get(games.size() - 1).getID() + 1;
+        } else
+            no = games.get(games.size() - 1).getID() + 1;
         SettingsManager.getInstance().getSpawns().set(("spawns." + no), null);
         c.set("system.arenas." + no + ".world", max.getWorld().getName());
         c.set("system.arenas." + no + ".x1", max.getBlockX());
@@ -250,7 +245,6 @@ public class GameManager {
         SettingsManager.getInstance().saveSystemConfig();
         hotAddArena(no);
         pl.sendMessage(ChatColor.GREEN + "Arena ID " + no + " Succesfully added");
-
     }
 
     private void hotAddArena(int no) {
@@ -259,17 +253,14 @@ public class GameManager {
     }
 
     public void hotRemoveArena(int no) {
-        for (Game g: games.toArray(new Game[0])) {
+        for (Game g : games.toArray(new Game[0])) {
             if (g.getID() == no) {
                 games.remove(getGame(no));
             }
         }
     }
 
-	public Game getGamePlayer(Player player) {
-		return getGame(getPlayerGameId(player));
-	}
-
-
- 
+    public Game getGamePlayer(Player player) {
+        return getGame(getPlayerGameId(player));
+    }
 }

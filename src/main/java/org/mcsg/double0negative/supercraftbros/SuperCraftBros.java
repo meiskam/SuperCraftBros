@@ -20,51 +20,49 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import java.io.IOException;
 import org.mcstats.*;
 
-public class SuperCraftBros extends JavaPlugin{
+public class SuperCraftBros extends JavaPlugin {
 
-	public void onEnable(){
-		try {
-				Metrics metrics = new Metrics(this);
-				metrics.start();
-		} catch (IOException e) {
-		}
-		SettingsManager.getInstance().setup(this);
-		GameManager.getInstance().setup(this);
-		
-		this.getServer().getPluginManager().registerEvents(new BreakBlock(), this);
-		this.getServer().getPluginManager().registerEvents(new ClickSignEvent(), this);
-		this.getServer().getPluginManager().registerEvents(new PlayerClassEvents(), this);
-		this.getServer().getPluginManager().registerEvents(new PlayerDamage(), this);
-		this.getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
-		this.getServer().getPluginManager().registerEvents(new PlayerLeave(), this);
-		this.getServer().getPluginManager().registerEvents(new PlayerTeleport(), this);
-		this.getServer().getPluginManager().registerEvents(new InventoryEvents(), this);
+    public void onEnable() {
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+        }
+        SettingsManager.getInstance().setup(this);
+        GameManager.getInstance().setup(this);
 
-		this.getCommand("scb").setExecutor(new CommandHandler(this));
-		
-		for(Player p:Bukkit.getOnlinePlayers()){
-			p.teleport(SettingsManager.getInstance().getLobbySpawn());
-			p.getInventory().clear();
-			p.getInventory().setArmorContents(new ItemStack[4]);
-			p.updateInventory();
-			p.getActivePotionEffects().clear();
-		}
-	}
+        this.getServer().getPluginManager().registerEvents(new BreakBlock(), this);
+        this.getServer().getPluginManager().registerEvents(new ClickSignEvent(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerClassEvents(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerDamage(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerLeave(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerTeleport(), this);
+        this.getServer().getPluginManager().registerEvents(new InventoryEvents(), this);
 
+        this.getCommand("scb").setExecutor(new CommandHandler(this));
 
-	public void onDisable(){
-		for(Game g:GameManager.getInstance().getGames()){
-			g.disable();
-		}
-	}
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.teleport(SettingsManager.getInstance().getLobbySpawn());
+            p.getInventory().clear();
+            p.getInventory().setArmorContents(new ItemStack[4]);
+            p.updateInventory();
+            p.getActivePotionEffects().clear();
+        }
+    }
 
+    public void onDisable() {
+        for (Game g : GameManager.getInstance().getGames()) {
+            g.disable();
+        }
+    }
 
-	public WorldEditPlugin getWorldEdit() {
-		Plugin worldEdit = getServer().getPluginManager().getPlugin("WorldEdit");
-		if (worldEdit instanceof WorldEditPlugin) {
-			return (WorldEditPlugin) worldEdit;
-		} else {
-			return null;
-		}
-	}
+    public WorldEditPlugin getWorldEdit() {
+        Plugin worldEdit = getServer().getPluginManager().getPlugin("WorldEdit");
+        if (worldEdit instanceof WorldEditPlugin) {
+            return (WorldEditPlugin) worldEdit;
+        } else {
+            return null;
+        }
+    }
 }

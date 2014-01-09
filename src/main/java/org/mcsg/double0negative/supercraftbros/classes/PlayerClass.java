@@ -7,35 +7,41 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 
 public interface PlayerClass {
-	
-	Player player = null;
 
-	public enum ClassType{
-		ENDERMAN, CACTUS, CREEPER, SKELETON, SPIDER, WITHER, ZOMBIE, UNKNOWN
-	}
-	
-	public void PlayerDamaged();
-	
-	public void PlayerDeath();
-	
-	public void PlayerAttack(Player victim);
-	
-	public void PlayerSpawn();
-	
-	public void PlayerPlaceBlock(Block b);
-	
-	public ClassType getType();
-	
-	PlayerClass newInstance(Player p);
-	
-	public void PlayerShootArrow(Entity pro);
-	
-	public void PlayerInteract(Action a);
-	
-	public void Smash();
-	
-	public void PlayerMove();
+    Player player = null;
 
-	public String getName();
-	
+    public enum ClassType {
+        ENDERMAN,
+        CACTUS,
+        CREEPER,
+        SKELETON,
+        SPIDER,
+        WITHER,
+        ZOMBIE,
+        UNKNOWN
+    }
+
+    public void PlayerDamaged();
+
+    public void PlayerDeath();
+
+    public void PlayerAttack(Player victim);
+
+    public void PlayerSpawn();
+
+    public void PlayerPlaceBlock(Block b);
+
+    public ClassType getType();
+
+    PlayerClass newInstance(Player p);
+
+    public void PlayerShootArrow(Entity pro);
+
+    public void PlayerInteract(Action a);
+
+    public void Smash();
+
+    public void PlayerMove();
+
+    public String getName();
 }

@@ -9,27 +9,19 @@ import org.mcsg.double0negative.supercraftbros.GameManager;
 
 public class BreakBlock implements Listener {
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void clickHandler(BlockBreakEvent e) {
+        int game = GameManager.getInstance().getPlayerGameId(e.getPlayer());
+        if (game != -1) {
+            e.setCancelled(true);
+        }
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void clickHandler(BlockBreakEvent e){
-    	int game = GameManager.getInstance().getPlayerGameId(e.getPlayer());
-    	if(game != -1){
-    		e.setCancelled(true);
-    		
-    	}
-    	
-    	
-    }
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void clickHandler(BlockPlaceEvent e){
-    	int game = GameManager.getInstance().getPlayerGameId(e.getPlayer());
-    	if(game != -1){
-    		e.setCancelled(true);
-    		
-    	}
-    	
-    	
-    	
-    	
+    public void clickHandler(BlockPlaceEvent e) {
+        int game = GameManager.getInstance().getPlayerGameId(e.getPlayer());
+        if (game != -1) {
+            e.setCancelled(true);
+        }
     }
 }

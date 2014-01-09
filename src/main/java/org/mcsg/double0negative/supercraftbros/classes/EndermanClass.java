@@ -2,11 +2,6 @@ package org.mcsg.double0negative.supercraftbros.classes;
 
 import java.util.Set;
 
-
-
-
-
-
 import net.minecraft.server.v1_7_R1.PacketPlayOutWorldEvent;
 
 import org.bukkit.Location;
@@ -20,81 +15,66 @@ import org.bukkit.potion.PotionEffectType;
 import org.mcsg.double0negative.supercraftbros.GameManager;
 import org.mcsg.double0negative.supercraftbros.util.Colorizer;
 
-public class EndermanClass extends PlayerClassBase{
+public class EndermanClass extends PlayerClassBase {
 
-	public EndermanClass(Player p) {
-		super(p);
-		// TODO Auto-generated constructor stub
-	}
+    public EndermanClass(Player p) {
+        super(p);
+        // TODO Auto-generated constructor stub
+    }
 
+    @Override
+    public void PlayerSpawn() {
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 80000, 2));
 
+        PlayerInventory i = player.getInventory();
+        i.clear();
 
+        i.setHelmet(Colorizer.setColor(new ItemStack(Material.LEATHER_HELMET), 37, 6, 39));
+        i.setChestplate(Colorizer.setColor(new ItemStack(Material.LEATHER_CHESTPLATE), 37, 6, 39));
 
-	@Override 
-	public void PlayerSpawn(){
-		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 80000, 2));
+        ItemStack legs = Colorizer.setColor(new ItemStack(Material.LEATHER_LEGGINGS), 37, 6, 39);
+        legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        i.setLeggings(legs);
 
-		PlayerInventory i = player.getInventory();
-		i.clear();
+        ItemStack boot = Colorizer.setColor(new ItemStack(Material.LEATHER_BOOTS), 37, 6, 39);
+        boot.addUnsafeEnchantment(Enchantment.PROTECTION_FALL, 10);
+        i.setBoots(boot);
 
-		i.setHelmet(Colorizer.setColor(new ItemStack(Material.LEATHER_HELMET), 37, 6, 39));
-		i.setChestplate(Colorizer.setColor(new ItemStack(Material.LEATHER_CHESTPLATE), 37, 6, 39));
+        ItemStack i1 = new ItemStack(381);
+        i1.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
+        i1.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
+        i.addItem(i1);
 
-		ItemStack legs = Colorizer.setColor(new ItemStack(Material.LEATHER_LEGGINGS), 37, 6, 39);
-		legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-		i.setLeggings(legs);
+        i.addItem(new ItemStack(Material.ENDER_PEARL, 20));
 
-		ItemStack boot = Colorizer.setColor(new ItemStack(Material.LEATHER_BOOTS),  37, 6, 39);
-		boot.addUnsafeEnchantment(Enchantment.PROTECTION_FALL, 10);
-		i.setBoots(boot);
+        player.updateInventory();
 
+    }
 
-		ItemStack i1 = new ItemStack(381);
-		i1.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
-		i1.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
-		i.addItem(i1);
+    public EndermanClass newInstance(Player p) {
+        return new EndermanClass(p);
+    }
 
-		i.addItem(new ItemStack(Material.ENDER_PEARL, 20));
+    public String getName() {
+        return "Enderman";
+    }
 
-		player.updateInventory();
+    public boolean sne = false;
 
-	}
+    public void PlayerMove() {
+        super.PlayerMove();
+        if (!fsmash) {
+            if (smash) {
+                if (player.isSneaking()) {
+                    sne = true;
 
+                    Set<Player> pls = GameManager.getInstance().getGamePlayer(player).getActivePlayers();
 
-	public EndermanClass newInstance(Player p){
-		return new EndermanClass(p);
-	}
-
-	public String getName(){
-		return "Enderman";
-	}
-
-	public boolean sne = false;
-	public void PlayerMove(){
-		super.PlayerMove();
-		if(!fsmash){
-			if(smash){
-				if(player.isSneaking()){
-					sne = true;
-
-					Set<Player>pls = GameManager.getInstance().getGamePlayer(player).getActivePlayers();
-					
-					Location l = player.getLocation();
-					player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 1000, 1));
-					SendPacketToAll(new PacketPlayOutWorldEvent(2003,l.getBlockX(), l.getBlockY()+1, l.getBlockZ(), 0, false));
-					
-				}
-			}
-			
-			
-			
-		}
-	}
-
-
-
-
-
+                    Location l = player.getLocation();
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 1000, 1));
+                    SendPacketToAll(new PacketPlayOutWorldEvent(2003, l.getBlockX(), l.getBlockY() + 1, l.getBlockZ(), 0, false));
+                }
+            }
+        }
+    }
 }
-
-

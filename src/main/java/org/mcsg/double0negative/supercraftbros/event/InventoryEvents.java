@@ -8,24 +8,20 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.mcsg.double0negative.supercraftbros.GameManager;
 
 public class InventoryEvents implements Listener {
-	
-	@EventHandler
-	public void itemDrop(PlayerDropItemEvent e){
-		int game = GameManager.getInstance().getPlayerGameId(e.getPlayer());
-    	if(game != -1){
-    		e.setCancelled(true);
-    		
-    	}
-    	
-	}
-	
-	@EventHandler
-	public void itemDrop(InventoryClickEvent e){
-		int game = GameManager.getInstance().getPlayerGameId(Bukkit.getPlayerExact(e.getWhoClicked().getName()));
-    	if(game != -1){
-    		e.setCancelled(true);
-    	}
-    	
-	}
 
+    @EventHandler
+    public void itemDrop(PlayerDropItemEvent e) {
+        int game = GameManager.getInstance().getPlayerGameId(e.getPlayer());
+        if (game != -1) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void itemDrop(InventoryClickEvent e) {
+        int game = GameManager.getInstance().getPlayerGameId(Bukkit.getPlayerExact(e.getWhoClicked().getName()));
+        if (game != -1) {
+            e.setCancelled(true);
+        }
+    }
 }

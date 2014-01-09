@@ -9,53 +9,50 @@ import org.mcsg.double0negative.supercraftbros.Game;
 import org.mcsg.double0negative.supercraftbros.GameManager;
 import org.mcsg.double0negative.supercraftbros.SettingsManager;
 
-public class SetSpawnCommand implements SubCommand{
+public class SetSpawnCommand implements SubCommand {
 
-    HashMap<Integer, Integer>next = new HashMap<Integer,Integer>();
+    HashMap<Integer, Integer> next = new HashMap<Integer, Integer>();
 
- 
-
-    public void loadNextSpawn(){
-        for(Game g:GameManager.getInstance().getGames().toArray(new Game[0])){ //Avoid Coccurency problems
-            next.put(g.getID(), SettingsManager.getInstance().getSpawnCount(g.getID())+1);
+    public void loadNextSpawn() {
+        for (Game g : GameManager.getInstance().getGames().toArray(new Game[0])) { //Avoid Coccurency problems
+            next.put(g.getID(), SettingsManager.getInstance().getSpawnCount(g.getID()) + 1);
         }
     }
-    
+
     public boolean onCommand(Player player, String[] args) {
-        
-        if(!player.isOp()){
+
+        if (!player.isOp()) {
             player.sendMessage(ChatColor.RED + "No Permission");
             return true;
         }
         loadNextSpawn();
         System.out.println("settings spawn");
-        Location l =  player.getLocation();
-        int game =  GameManager.getInstance().getBlockGameId(l);
-        System.out.println(game +" "+ next.size());
-        if(game == -1){
+        Location l = player.getLocation();
+        int game = GameManager.getInstance().getBlockGameId(l);
+        System.out.println(game + " " + next.size());
+        if (game == -1) {
             player.sendMessage(ChatColor.RED + "Must be in an arena!");
         }
         int i = 0;
-        if(args[0].equalsIgnoreCase("next")){
+        if (args[0].equalsIgnoreCase("next")) {
             i = next.get(game);
-            next.put(game, next.get(game)+1);
-        }
-        else{
-            try{
-            i = Integer.parseInt(args[0]);
-            if(i>next.get(game)+1 || i<1){
-                player.sendMessage(ChatColor.RED + "Spawn must be between 1 & "+next.get(game));
-                return true;
-            }
-            if(i == next.get(game)){
-                next.put(game, next.get(game)+1);
-            }
-            }catch(Exception e){
+            next.put(game, next.get(game) + 1);
+        } else {
+            try {
+                i = Integer.parseInt(args[0]);
+                if (i > next.get(game) + 1 || i < 1) {
+                    player.sendMessage(ChatColor.RED + "Spawn must be between 1 & " + next.get(game));
+                    return true;
+                }
+                if (i == next.get(game)) {
+                    next.put(game, next.get(game) + 1);
+                }
+            } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "Malformed input. Must be \"next\" or a number");
                 return false;
             }
         }
-        if(i == -1){
+        if (i == -1) {
             player.sendMessage(ChatColor.RED + "You must be inside an arnea");
             return true;
         }
@@ -64,11 +61,9 @@ public class SetSpawnCommand implements SubCommand{
 
         return true;
     }
-    
+
     @Override
     public String help(Player p) {
         return "/sg setspawn next- Sets a spawn in the arena you are located in.";
     }
 }
-
-

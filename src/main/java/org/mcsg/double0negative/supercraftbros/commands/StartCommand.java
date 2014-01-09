@@ -23,5 +23,4 @@ public class StartCommand implements SubCommand{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
